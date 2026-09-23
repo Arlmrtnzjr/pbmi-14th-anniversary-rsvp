@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>PBMI 14th Anniversary — RSVP</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;700;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    box-sizing:border-box;
+    --navy-900:#0a1526; --navy-800:#122542; --navy-700:#1a3355;
+    --crimson:#a52b21; --crimson-dark:#7c1c15; --royal:#33588f;
+    --cream:#efe4c8; --cream-dim:#cabf9f; --ink:#0d0a08;
+    padding-top:env(safe-area-inset-top,0px);
+    padding-bottom:env(safe-area-inset-bottom,0px);
+  }
+  *{box-sizing:border-box;}
+  html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px);}
+  body{
+    height:100%;margin:0;background:var(--navy-900);color:var(--cream);
+    font-family:'Zen Kaku Gothic New',"Hiragino Sans",sans-serif;
+    overflow-x:hidden;
+  }
+  .display{font-family:'Shippori Mincho',serif;}
+  #app{position:relative;min-height:100%;width:100%;max-width:520px;margin:0 auto;}
+  .screen{
+    display:none;min-height:100vh;min-height:100dvh;
+    padding:48px 26px 40px;position:relative;
+    flex-direction:column;justify-content:flex-start;
+    animation:rise .5s ease both;
+  }
+  .screen.active{display:flex;}
+  @keyframes rise{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
+
+  .frame{
+    position:absolute;inset:14px;border:1px solid rgba(239,228,200,0.35);
+    pointer-events:none;
+  }
+  .frame::before,.frame::after{
+    content:"";position:absolute;width:22px;height:22px;border:2px solid var(--crimson);
+  }
+  .frame::before{top:-2px;left:-2px;border-right:none;border-bottom:none;}
+  .frame::after{bottom:-2px;right:-2px;border-left:none;border-top:none;}
+
+  .kicker{
+    text-align:center;font-size:11px;letter-spacing:.22em;color:var(--cream-dim);
+    margin-bottom:18px;
+  }
+  .sun{
+    width:120px;height:120px;border-radius:50%;margin:6px auto 0;
+    background:radial-gradient(circle at 50% 45%,#c94a3c 0%,var(--crimson) 55%,var(--crimson-dark) 100%);
+    box-shadow:0 0 46px rgba(165,43,33,.55);
+  }
+  .torii{width:100%;max-width:300px;margin:-58px auto 0;display:block;}
+
+  h1.poster{
+    font-family:'Shippori Mincho',serif;font-weight:800;
+    text-align:center;line-height:1.02;margin:2px 0 0;
+  }
+  .pbmi{font-size:clamp(46px,15vw,64px);letter-spacing:.06em;color:var(--cream);}
+  .annув{font-size:clamp(56px,20vw,84px);color:var(--crimson);margin:2px 0;}
+  .invitation-word{
+    text-align:center;font-size:13px;letter-spacing:.5em;padding-left:.5em;
+    color:var(--cream-dim);margin-top:6px;
+  }
+  .tagline{
+    text-align:center;font-size:13px;color:var(--cream-dim);letter-spacing:.08em;
+    margin:14px 0 0;
+  }
+  .lede{
+    text-align:center;color:var(--cream);font-size:15px;line-height:1.65;
+    max-width:38ch;margin:20px auto 0;
+  }
+  .details{
+    display:flex;justify-content:center;gap:22px;flex-wrap:wrap;
+    margin:26px 0 6px;padding:14px 10px;border-top:1px solid rgba(239,228,200,.25);
+    border-bottom:1px solid rgba(239,228,200,.25);
+  }
+  .detail{text-align:center;font-size:13px;}
+  .detail b{display:block;font-size:14px;color:var(--cream);margin-bottom:2px;}
+  .spacer{flex:1;}
+
+  .btn{
+    display:block;width:100%;border:none;border-radius:2px;
+    font-family:'Zen Kaku Gothic New',sans-serif;font-weight:700;font-size:16px;
+    padding:17px 18px;cursor:pointer;text-align:center;letter-spacing:.02em;
+    transition:transform .12s ease, box-shadow .12s ease;
+  }
+  .btn:active{transform:scale(.98);}
+  .btn-primary{
+    background:var(--crimson);color:var(--cream);
+    box-shadow:0 6px 0 var(--crimson-dark), 0 10px 18px rgba(0,0,0,.35);
+  }
+  .btn-primary:active{box-shadow:0 3px 0 var(--crimson-dark);}
+  .btn-ghost{
+    background:transparent;color:var(--cream-dim);border:1px solid rgba(239,228,200,.4);
+    font-weight:500;font-size:14px;padding:12px;
+  }
+  .btn-row{display:flex;gap:10px;margin-top:10px;}
+  .btn-row .btn{flex:1;}
+
+  h2.heading{
+    font-family:'Shippori Mincho',serif;font-weight:700;font-size:26px;
+    text-align:center;margin:8px 0 4px;color:var(--cream);
+  }
+  .sub{text-align:center;color:var(--cream-dim);font-size:14px;margin:0 0 26px;line-height:1.5;}
+
+  .search-wrap{position:relative;margin-bottom:8px;}
+  .search-input{
+    width:100%;padding:16px;border-radius:2px;border:1px solid var(--cream-dim);
+    background:var(--navy-800);color:var(--cream);font-size:16px;
+    font-family:'Zen Kaku Gothic New',sans-serif;
+  }
+  .search-input::placeholder{color:var(--cream-dim);}
+  .search-input:focus{outline:2px solid var(--royal);outline-offset:1px;}
+  .name-list{max-height:44vh;overflow-y:auto;margin-top:4px;border:1px solid rgba(239,228,200,.2);}
+  .name-row{
+    padding:14px 16px;border-bottom:1px solid rgba(239,228,200,.12);cursor:pointer;font-size:15px;
+  }
+  .name-row:last-child{border-bottom:none;}
+  .name-row:hover,.name-row:focus{background:var(--navy-700);}
+  .name-row.picked{background:var(--crimson);color:var(--cream);}
+  .name-empty{padding:16px;text-align:center;color:var(--cream-dim);font-size:13px;}
+
+  .choice-card{
+    display:flex;align-items:center;gap:14px;width:100%;text-align:left;
+    background:var(--navy-800);border:1px solid rgba(239,228,200,.25);border-radius:3px;
+    padding:18px;margin-bottom:14px;cursor:pointer;color:var(--cream);
+    font-family:'Zen Kaku Gothic New',sans-serif;
+  }
+  .choice-card:focus-visible{outline:2px solid var(--royal);}
+  .choice-card .mark{
+    flex:0 0 30px;width:30px;height:30px;border-radius:50%;border:2px solid var(--cream-dim);
+    display:flex;align-items:center;justify-content:center;font-size:15px;
+  }
+  .choice-card.yes .mark{border-color:var(--crimson);}
+  .choice-card.yes.selected{border-color:var(--crimson);background:linear-gradient(180deg,var(--navy-800),#1c1210);}
+  .choice-card.yes.selected .mark{background:var(--crimson);}
+  .choice-card.no.selected{border-color:var(--royal);}
+  .choice-card.no.selected .mark{background:var(--royal);}
+  .choice-card .txt b{display:block;font-size:16px;margin-bottom:2px;}
+  .choice-card .txt span{font-size:13px;color:var(--cream-dim);}
+
+  .meal-row{
+    display:flex;align-items:center;gap:14px;padding:16px;margin-bottom:10px;
+    border:1px solid rgba(239,228,200,.25);border-radius:2px;cursor:pointer;
+    background:var(--navy-800);
+  }
+  .meal-row .dot{
+    flex:0 0 20px;width:20px;height:20px;border-radius:50%;border:2px solid var(--cream-dim);
+    position:relative;
+  }
+  .meal-row.selected{border-color:var(--crimson);background:#1c1613;}
+  .meal-row.selected .dot{border-color:var(--crimson);}
+  .meal-row.selected .dot::after{
+    content:"";position:absolute;inset:3px;border-radius:50%;background:var(--crimson);
+  }
+  .meal-row span{font-size:15px;}
+
+  .survey-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:22px;}
+  .survey-item{
+    display:flex;align-items:center;gap:9px;padding:13px 10px;border:1px solid rgba(239,228,200,.25);
+    border-radius:2px;background:var(--navy-800);cursor:pointer;font-size:13.5px;
+  }
+  .survey-item.selected{border-color:var(--royal);background:#152238;}
+  .survey-item .box{
+    flex:0 0 16px;width:16px;height:16px;border:2px solid var(--cream-dim);position:relative;
+  }
+  .survey-item.selected .box{border-color:var(--royal);background:var(--royal);}
+  .survey-item.selected .box::after{
+    content:"";position:absolute;left:2px;top:-1px;width:5px;height:9px;
+    border-right:2px solid var(--cream);border-bottom:2px solid var(--cream);transform:rotate(40deg);
+  }
+
+  .confirm-box{
+    border:1px solid rgba(239,228,200,.35);padding:20px;margin:18px 0;
+  }
+  .confirm-box .label{font-size:11px;letter-spacing:.18em;color:var(--cream-dim);}
+  .confirm-box .value{font-family:'Shippori Mincho',serif;font-size:20px;color:var(--cream);margin-top:4px;}
+  .check-mark{
+    width:74px;height:74px;border-radius:50%;border:3px solid var(--crimson);margin:6px auto 20px;
+    display:flex;align-items:center;justify-content:center;font-size:34px;color:var(--crimson);
+    animation:pop .4s ease both;
+  }
+  @keyframes pop{from{transform:scale(.5);opacity:0}to{transform:scale(1);opacity:1}}
+
+  .waves{width:100%;height:56px;margin-top:auto;opacity:.8;}
+  .foot{text-align:center;font-size:10.5px;letter-spacing:.16em;color:var(--cream-dim);margin-top:14px;}
+
+  #admin-link{
+    display:none;text-align:center;margin-top:20px;font-size:12px;color:var(--cream-dim);
+    text-decoration:underline;cursor:pointer;
+  }
+  #admin-screen table{width:100%;border-collapse:collapse;font-size:12px;}
+  #admin-screen th,#admin-screen td{border:1px solid rgba(239,228,200,.25);padding:6px;text-align:left;}
+  #admin-screen{overflow-x:auto;}
+
+  @media (min-width:600px){ .screen{padding-top:64px;} }
+</style>
+</head>
+<body>
+<div id="app">
+
+  <!-- SCREEN 1: INVITATION -->
+  <section class="screen active" id="s-invite">
+    <div class="frame"></div>
+    <div class="kicker">十四周年 · SAME CREW, FURTHER HORIZONS</div>
+    <div class="sun"></div>
+    <svg class="torii" viewBox="0 0 300 140" xmlns="http://www.w3.org/2000/svg">
+      <g fill="none" stroke="#a52b21" stroke-width="7">
+        <line x1="70" y1="30" x2="70" y2="130"/>
+        <line x1="230" y1="30" x2="230" y2="130"/>
+        <line x1="40" y1="55" x2="260" y2="55"/>
+        <line x1="20" y1="30" x2="280" y2="30"/>
+        <line x1="150" y1="55" x2="150" y2="80"/>
+      </g>
+    </svg>
+    <h1 class="poster">
+      <div class="pbmi">PBMI</div>
+      <div class="annув">14TH<br>ANNIVERSARY</div>
+    </h1>
+    <div class="invitation-word">INVITATION</div>
+    <p class="lede">Join us as we celebrate fourteen years of teamwork, resilience, and shared journeys.</p>
+    <div class="details">
+      <div class="detail"><b>[EVENT DATE]</b>Date</div>
+      <div class="detail"><b>[EVENT TIME]</b>Time</div>
+      <div class="detail"><b>[EVENT VENUE]</b>Venue</div>
+    </div>
+    <div class="spacer"></div>
+    <button class="btn btn-primary" onclick="go('s-name')">RSVP NOW →</button>
+    <div class="foot">GOOD PEOPLE. GREATER VOYAGES.</div>
+  </section>
+
+  <!-- SCREEN 2: NAME -->
+  <section class="screen" id="s-name">
+    <h2 class="heading">Welcome!</h2>
+    <p class="sub">Please select your name to continue.</p>
+    <div class="search-wrap">
+      <input class="search-input" id="nameSearch" type="text" placeholder="Search names" autocomplete="off" oninput="renderNames()">
+    </div>
+    <div class="name-list" id="nameList"></div>
+    <div class="spacer"></div>
+    <button class="btn btn-primary" id="nameContinue" disabled onclick="go('s-attend')">CONTINUE →</button>
+    <button class="btn btn-ghost" style="margin-top:10px" onclick="go('s-invite')">← Back</button>
+  </section>
+
+  <!-- SCREEN 3: ATTENDANCE -->
+  <section class="screen" id="s-attend">
+    <h2 class="heading">Will you attend the event?</h2>
+    <p class="sub">Let us know if you'll be joining us.</p>
+    <button class="choice-card yes" id="opt-yes" onclick="setAttendance(true)">
+      <span class="mark">✓</span>
+      <span class="txt"><b>Yes, I'll attend!</b><span>I'd love to join the celebration.</span></span>
+    </button>
+    <button class="choice-card no" id="opt-no" onclick="setAttendance(false)">
+      <span class="mark">✕</span>
+      <span class="txt"><b>No, I won't, sorry.</b><span>I'm unable to attend this time.</span></span>
+    </button>
+    <div class="spacer"></div>
+    <button class="btn btn-primary" id="attendContinue" disabled onclick="onAttendContinue()">CONTINUE →</button>
+  </section>
+
+  <!-- SCREEN 4: MEAL -->
+  <section class="screen" id="s-meal">
+    <h2 class="heading">Choose your main meal</h2>
+    <p class="sub">Please select one meal you'd like to have at the event.</p>
+    <div id="mealList"></div>
+    <div class="spacer"></div>
+    <button class="btn btn-primary" id="mealContinue" disabled onclick="go('s-surveyIntro')">CONTINUE →</button>
+  </section>
+
+  <!-- SCREEN 5: SURVEY INTRO -->
+  <section class="screen" id="s-surveyIntro">
+    <h2 class="heading">One quick question</h2>
+    <p class="sub">Would you like to help us with a quick food survey? Your answer helps us plan quantities and reduce food waste — totally optional.</p>
+    <div class="spacer"></div>
+    <button class="btn btn-primary" onclick="go('s-survey')">YES, I'LL HELP →</button>
+    <button class="btn btn-ghost" style="margin-top:12px" onclick="submitRSVP(false)">SKIP SURVEY →</button>
+  </section>
+
+  <!-- SCREEN 6: SURVEY -->
+  <section class="screen" id="s-survey">
+    <h2 class="heading">What are you most likely to eat?</h2>
+    <p class="sub">Select all that apply.</p>
+    <div class="survey-grid" id="surveyGrid"></div>
+    <button class="btn btn-primary" onclick="submitRSVP(true)">SUBMIT →</button>
+  </section>
+
+  <!-- SCREEN 7: CONFIRM YES -->
+  <section class="screen" id="s-confirmYes">
+    <div class="check-mark">✓</div>
+    <h2 class="heading">You're confirmed!</h2>
+    <p class="sub">Thank you for confirming your attendance. We look forward to celebrating with you!</p>
+    <div class="confirm-box">
+      <div class="label">YOUR SELECTED MAIN MEAL</div>
+      <div class="value" id="confirmMeal">—</div>
+    </div>
+    <div class="confirm-box">
+      <div class="label">EVENT</div>
+      <div class="value" style="font-size:15px">[EVENT DATE] · [EVENT TIME]<br>[EVENT VENUE]</div>
+    </div>
+    <p class="sub" style="margin-top:8px">We can't wait to see you!</p>
+    <div class="foot">SAME CREW. FURTHER HORIZONS.</div>
+    <div id="admin-link" onclick="go('s-admin')">Organizer view →</div>
+  </section>
+
+  <!-- SCREEN 8: CONFIRM NO -->
+  <section class="screen" id="s-confirmNo">
+    <div class="sun" style="filter:grayscale(.4);opacity:.85"></div>
+    <h2 class="heading" style="margin-top:20px">Thank you for letting us know</h2>
+    <p class="sub">We understand you won't be able to join us this time. We hope to celebrate with you on another occasion.</p>
+    <div class="foot" style="margin-top:20px">PBMI 14TH ANNIVERSARY</div>
+  </section>
+
+  <!-- SCREEN 9: ADMIN (organizer only) -->
+  <section class="screen" id="s-admin">
+    <h2 class="heading">Organizer view</h2>
+    <p class="sub">Live RSVP responses.</p>
+    <div id="admin-screen"><p class="sub">Loading…</p></div>
+    <button class="btn btn-ghost" style="margin-top:16px" onclick="go('s-confirmYes')">← Back</button>
+  </section>
+
+</div>
+
+<script>
+// ---- Placeholder content: replace before going live ----
+const GUESTS = ["Juan Dela Cruz","Maria Santos","Ramon Villanueva","Liza Fernandez","Carlo Reyes","Angela Torres","Marco Bautista","Camille Aquino"];
+const MEALS = ["Chicken Teriyaki","Beef Sukiyaki","Grilled Fish","Vegetable Pasta"];
+const SURVEY_OPTIONS = ["Beef","Chicken","Fish / Seafood","Vegetables","Rice / Carbs","Dessert / Sweets","Salad / Appetizers","Other"];
+
+const state = { name:null, attendance:null, meal:null, likes:[] };
+
+function go(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+function renderNames(){
+  const q = document.getElementById('nameSearch').value.trim().toLowerCase();
+  const list = document.getElementById('nameList');
+  const filtered = GUESTS.filter(n=>n.toLowerCase().includes(q));
+  list.innerHTML = filtered.length ? filtered.map(n=>
+    `<div class="name-row${n===state.name?' picked':''}" onclick="pickName('${n.replace(/'/g,"\\'")}')">${n}</div>`
+  ).join('') : `<div class="name-empty">No matching names</div>`;
+}
+function pickName(n){
+  state.name = n;
+  document.getElementById('nameSearch').value = n;
+  document.getElementById('nameContinue').disabled = false;
+  renderNames();
+}
+
+function setAttendance(yes){
+  state.attendance = yes;
+  document.getElementById('opt-yes').classList.toggle('selected', yes);
+  document.getElementById('opt-no').classList.toggle('selected', !yes);
+  document.getElementById('attendContinue').disabled = false;
+}
+function onAttendContinue(){
+  if(state.attendance){ renderMeals(); go('s-meal'); }
+  else { submitRSVP(false); }
+}
+
+function renderMeals(){
+  const wrap = document.getElementById('mealList');
+  wrap.innerHTML = MEALS.map(m=>
+    `<div class="meal-row" data-meal="${m}" onclick="pickMeal('${m.replace(/'/g,"\\'")}')"><span class="dot"></span><span>${m}</span></div>`
+  ).join('');
+}
+function pickMeal(m){
+  state.meal = m;
+  document.querySelectorAll('.meal-row').forEach(r=>r.classList.toggle('selected', r.dataset.meal===m));
+  document.getElementById('mealContinue').disabled = false;
+}
+
+function renderSurvey(){
+  const grid = document.getElementById('surveyGrid');
+  grid.innerHTML = SURVEY_OPTIONS.map(o=>
+    `<div class="survey-item" data-opt="${o}" onclick="toggleLike('${o.replace(/'/g,"\\'")}')"><span class="box"></span><span>${o}</span></div>`
+  ).join('');
+}
+function toggleLike(o){
+  const i = state.likes.indexOf(o);
+  if(i>-1) state.likes.splice(i,1); else state.likes.push(o);
+  document.querySelectorAll('.survey-item').forEach(el=>el.classList.toggle('selected', state.likes.includes(el.dataset.opt)));
+}
+document.getElementById('s-survey') && renderSurvey();
+
+async function submitRSVP(surveyDone){
+  const record = {
+    name: state.name,
+    attendance: state.attendance ? 'YES' : 'NO',
+    mainMeal: state.attendance ? state.meal : null,
+    surveyCompleted: state.attendance ? (surveyDone ? 'YES' : 'NO') : null,
+    mostLikelyToEat: state.attendance && surveyDone ? state.likes : null,
+    timestamp: Date.now()
+  };
+  try{
+    if(window.__db && state.name){
+      const slug = state.name.toLowerCase().replace(/[^a-z0-9]+/g,'-');
+      await window.__db.doc('rsvps/'+slug).set(record);
+    }
+  }catch(e){ console.warn('RSVP storage unavailable, continuing anyway', e); }
+
+  if(state.attendance){
+    document.getElementById('confirmMeal').textContent = state.meal || '—';
+    go('s-confirmYes');
+  } else {
+    go('s-confirmNo');
+  }
+}
+
+// name list init
+renderNames();
+
+// ---- Runtime: organizer-only response viewer ----
+(async ()=>{
+  try{
+    const db = await claude.use('db');
+    window.__db = db;
+    const user = await claude.use('user');
+    if(user && db){
+      const isOwner = user.isOwner ? (user.isOwner() ?? false) : false;
+      if(isOwner){
+        document.getElementById('admin-link').style.display = 'block';
+        db.collection('rsvps').onSnapshot(snap=>{
+          const rows = (snap.docs||[]).map(d=>d.data ? d.data() : d);
+          const el = document.getElementById('admin-screen');
+          if(!rows.length){ el.innerHTML = '<p class="sub">No responses yet.</p>'; return; }
+          el.innerHTML = `<table><tr><th>Name</th><th>Attending</th><th>Meal</th><th>Survey</th><th>Likes</th></tr>` +
+            rows.map(r=>`<tr><td>${r.name||''}</td><td>${r.attendance||''}</td><td>${r.mainMeal||'—'}</td><td>${r.surveyCompleted||'—'}</td><td>${(r.mostLikelyToEat||[]).join(', ')||'—'}</td></tr>`).join('') +
+            `</table>`;
+        });
+      }
+    }
+  }catch(e){ /* runtime not available in this context */ }
+})();
+</script>
+</body>
+</html>
