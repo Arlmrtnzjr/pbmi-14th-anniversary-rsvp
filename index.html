@@ -202,6 +202,225 @@
   #adminLoginCard .heading{text-align:left;}
   #adminLoginCard input{margin-top:4px;}
 
+  /* =========================
+     RESPONSIVE DESKTOP LAYOUT
+     ========================= */
+  @media (min-width: 769px){
+    body{
+      min-height:100vh;
+      display:flex;
+      justify-content:center;
+      align-items:stretch;
+      background:
+        radial-gradient(circle at 50% 18%, rgba(51,88,143,.16), transparent 34%),
+        var(--navy-900);
+    }
+
+    #app{
+      width:min(100%, 1180px);
+      max-width:none;
+      min-height:100vh;
+      margin:0 auto;
+    }
+
+    .screen{
+      min-height:100vh;
+      padding:56px 70px 52px;
+    }
+
+    .screen.active{
+      align-items:stretch;
+    }
+
+    /* Decorative frame becomes more proportional on desktop. */
+    .frame{
+      inset:24px;
+    }
+
+    /* Public invitation */
+    #s-invite{
+      justify-content:center;
+      text-align:center;
+    }
+
+    #s-invite .kicker{
+      width:min(100%, 980px);
+      margin-left:auto;
+      margin-right:auto;
+    }
+
+    #s-invite .sun{
+      width:132px;
+      height:132px;
+      margin-top:12px;
+    }
+
+    #s-invite .torii{
+      max-width:360px;
+      margin:-64px auto 0;
+    }
+
+    h1.poster{
+      max-width:900px;
+      margin-left:auto;
+      margin-right:auto;
+    }
+
+    .num-hero{
+      font-size:clamp(76px, 9vw, 120px);
+    }
+
+    .anniv-word{
+      font-size:clamp(28px, 3.2vw, 44px);
+    }
+
+    .invitation-word{
+      font-size:15px;
+      margin-top:8px;
+    }
+
+    .lede{
+      max-width:58ch;
+      font-size:16px;
+      margin-top:20px;
+    }
+
+    .details{
+      width:min(100%, 820px);
+      margin:28px auto 8px;
+      gap:28px;
+      padding:16px 20px;
+    }
+
+    .detail{
+      font-size:13px;
+    }
+
+    .detail b{
+      font-size:15px;
+    }
+
+    #rsvpNowBtn{
+      width:min(100%, 560px);
+      margin-left:auto;
+      margin-right:auto;
+    }
+
+    .foot{
+      margin-top:18px;
+    }
+
+    /* Public forms */
+    #s-name,
+    #s-attend,
+    #s-meal,
+    #s-surveyIntro,
+    #s-survey,
+    #s-confirmYes,
+    #s-confirmNo{
+      width:min(100%, 820px);
+      margin-left:auto;
+      margin-right:auto;
+    }
+
+    #s-name .name-select{
+      width:min(100%, 700px);
+      margin-left:auto;
+      margin-right:auto;
+    }
+
+    .choice-card{
+      max-width:760px;
+      margin-left:auto;
+      margin-right:auto;
+    }
+
+    .meal-row{
+      max-width:760px;
+      margin-left:auto;
+      margin-right:auto;
+    }
+
+    .survey-grid{
+      width:min(100%, 900px);
+      margin-left:auto;
+      margin-right:auto;
+      grid-template-columns:repeat(3, minmax(0,1fr));
+      gap:12px;
+    }
+
+    .survey-item{
+      min-height:54px;
+      padding:13px 12px;
+      font-size:13px;
+    }
+
+    .confirm-box{
+      width:min(100%, 720px);
+      margin-left:auto;
+      margin-right:auto;
+    }
+
+    /* Admin */
+    #s-admin{
+      padding:34px 34px 60px;
+    }
+
+    .admin-wrap{
+      width:min(100%, 1120px);
+      max-width:none;
+      margin:0 auto;
+      padding:10px 10px 50px;
+    }
+
+    .admin-header{
+      padding:4px 2px 6px;
+    }
+
+    .admin-title{
+      font-size:24px;
+    }
+
+    .admin-tabs{
+      flex-wrap:wrap;
+      overflow-x:visible;
+      padding-bottom:4px;
+    }
+
+    .admin-tab{
+      font-size:13px;
+      padding:9px 15px;
+    }
+
+    .stat-grid{
+      grid-template-columns:repeat(6, minmax(0,1fr));
+      gap:12px;
+    }
+
+    .stat{
+      min-height:86px;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+    }
+
+    .card{
+      padding:18px;
+    }
+
+    .list-item{
+      padding:11px 0;
+    }
+  }
+
+  /* Medium screens: keep desktop composition but reduce side padding. */
+  @media (min-width:769px) and (max-width:1000px){
+    .screen{padding-left:42px;padding-right:42px;}
+    #s-admin{padding-left:20px;padding-right:20px;}
+    .admin-wrap{padding-left:0;padding-right:0;}
+    .survey-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
+  }
+
 </style>
 </head>
 <body>
