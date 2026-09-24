@@ -1029,13 +1029,19 @@ async function submitRSVP(surveyDone){
   try{
     await postForm('submitRSVP',record);
 
-    // Verify the Google Sheet changed before showing confirmation.
+    // Fast verification: confirm the write with a short 2-step check instead of
+    // repeatedly polling the full public dataset up to 6 times.
     let verified=false;
-    for(let attempt=0;attempt<6;attempt++) {
+    for(const delay of [0,350]) {
+      if(delay) await new Promise(r=>setTimeout(r,delay));
       const latest=await apiGet('public');
       const stillAvailable=(latest.ATTENDEES||[]).some(a=>String(a.id)===String(record.inviteeId));
       if(!stillAvailable){ verified=true; break; }
-      await new Promise(r=>setTimeout(r,500));
+    }
+    if(!verified) {
+      await new Promise(r=>setTimeout(r,650));
+      const latest=await apiGet('public');
+      verified=!(latest.ATTENDEES||[]).some(a=>String(a.id)===String(record.inviteeId));
     }
     if(!verified) throw new Error('Your RSVP could not be verified. Please try again.');
 
