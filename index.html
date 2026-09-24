@@ -213,18 +213,40 @@
 
 
   /* =========================
-     PINTEREST WAVE BACKGROUND — FULL WIDTH, DARK BLUE, TILED
+     CLASSY JAPANESE WAVE BACKGROUND — NO PHOTO
      ========================= */
   #app{isolation:isolate;}
   body{
-    background-color:#08182d;
+    position:relative;
+    background:#071426;
+    overflow-x:hidden;
+  }
+  /* Lightweight vector-like seigaiha texture. Repeats instead of enlarging any raster image. */
+  body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    z-index:-2;
+    pointer-events:none;
+    background-color:#071426;
     background-image:
-      linear-gradient(rgba(8,24,45,.84), rgba(8,24,45,.84)),
-      url('https://i.pinimg.com/736x/a2/e9/4a/a2e94acfbfa72974b90b69a4d99253a3.jpg');
-    background-repeat:no-repeat, repeat;
-    background-position:center center, center center;
-    background-size:cover, 420px auto;
-    background-attachment:scroll, scroll;
+      radial-gradient(circle at 0 100%, transparent 0 28px, rgba(92,126,164,.16) 29px 30px, transparent 31px 100%),
+      radial-gradient(circle at 0 100%, transparent 0 38px, rgba(92,126,164,.12) 39px 40px, transparent 41px 100%),
+      radial-gradient(circle at 0 100%, transparent 0 48px, rgba(92,126,164,.09) 49px 50px, transparent 51px 100%);
+    background-repeat:repeat;
+    background-position:0 0, 0 0, 0 0;
+    background-size:140px 110px;
+    opacity:.78;
+  }
+  body::after{
+    content:"";
+    position:fixed;
+    inset:0;
+    z-index:-1;
+    pointer-events:none;
+    background:
+      radial-gradient(circle at 50% 8%, rgba(51,88,143,.20), transparent 34%),
+      linear-gradient(180deg, rgba(4,15,29,.10), rgba(4,15,29,.22));
   }
   .screen::before{
     content:"";
@@ -232,46 +254,91 @@
     inset:0;
     z-index:0;
     pointer-events:none;
-    background:
-      linear-gradient(180deg, rgba(7,20,36,.34) 0%, rgba(7,20,36,.22) 48%, rgba(7,20,36,.42) 100%);
+    background:linear-gradient(180deg, rgba(5,18,35,.10) 0%, rgba(5,18,35,.05) 45%, rgba(5,18,35,.18) 100%);
   }
   .screen > *{position:relative;z-index:1;}
-  #s-admin::before{background:linear-gradient(180deg, rgba(7,20,36,.55), rgba(7,20,36,.60));}
+  #s-admin::before{background:linear-gradient(180deg,rgba(5,18,35,.40),rgba(5,18,35,.50));}
+
+  /* Mobile: denser, quieter wave texture so text stays crisp. */
   @media (max-width:768px){
-    body{
-      background-size:cover, 270px auto;
-      background-position:center center, center center;
+    body::before{
+      background-size:108px 86px;
+      opacity:.62;
+    }
+    body::after{
+      background:
+        radial-gradient(circle at 50% 5%, rgba(51,88,143,.16), transparent 38%),
+        linear-gradient(180deg, rgba(4,15,29,.14), rgba(4,15,29,.26));
     }
     .screen::before{
-      background:linear-gradient(180deg, rgba(7,20,36,.30) 0%, rgba(7,20,36,.18) 48%, rgba(7,20,36,.38) 100%);
+      background:linear-gradient(180deg, rgba(5,18,35,.10) 0%, rgba(5,18,35,.06) 50%, rgba(5,18,35,.20) 100%);
     }
-    #s-invite::before{opacity:1;}
+    #s-invite::before{background:linear-gradient(180deg,rgba(5,18,35,.08),rgba(5,18,35,.04) 52%,rgba(5,18,35,.16));}
+
     .kicker-main{
-      font-size:11px;
-      line-height:1.75;
-      letter-spacing:.025em;
-      max-width:330px;
+      font-family:'Zen Old Mincho','Shippori Mincho',serif;
+      font-size:clamp(10px,2.8vw,12px);
+      line-height:1.7;
+      letter-spacing:.04em;
+      max-width:340px;
+      text-wrap:balance;
     }
+    .kicker-sub{
+      font-family:'Cormorant Garamond','Shippori Mincho',serif;
+      letter-spacing:.24em;
+      font-size:11px;
+    }
+    .brand-logo{width:min(78vw,310px);max-height:82px;margin-bottom:13px;}
+    .sun{width:88px;height:88px;}
+    .torii{max-width:230px;margin:-44px auto 0;}
+    .num-hero{font-size:clamp(62px,20vw,90px);letter-spacing:.02em;}
+    .anniv-word{font-size:clamp(23px,7.6vw,36px);letter-spacing:.12em;}
+    .invitation-word{font-size:12px;letter-spacing:.56em;margin-top:8px;}
+    .lede{font-size:14px;line-height:1.72;max-width:35ch;margin-top:18px;}
+    .details{grid-template-columns:1fr;gap:0;padding:0;margin-top:24px;border-top:1px solid rgba(239,228,200,.24);border-bottom:1px solid rgba(239,228,200,.24);}
+    .detail{padding:13px 10px;font-size:12px;}
+    .detail + .detail{border-top:1px solid rgba(239,228,200,.14);}
+    .detail b{font-size:14px;white-space:normal;overflow:visible;text-overflow:clip;}
+    #rsvpNowBtn{margin-top:18px;}
   }
   @media (max-width:390px){
-    .kicker-main{
-      font-size:10.5px;
-      line-height:1.72;
-      letter-spacing:.015em;
-      max-width:300px;
-    }
+    body::before{background-size:92px 74px;opacity:.56;}
+    .kicker-main{font-size:9.5px;line-height:1.65;max-width:300px;}
+    .brand-logo{width:min(76vw,285px);max-height:75px;}
+    .sun{width:80px;height:80px;}
+    .torii{max-width:215px;margin:-40px auto 0;}
+    .num-hero{font-size:clamp(56px,19vw,80px);}
+    .anniv-word{font-size:clamp(21px,7.2vw,33px);}
+    .lede{font-size:13.5px;max-width:33ch;}
   }
   @media (min-width:769px){
-    #s-invite::before{opacity:.96;}
+    body::before{
+      background-size:165px 130px;
+      opacity:.72;
+    }
+    body::after{
+      background:
+        radial-gradient(circle at 50% 10%, rgba(51,88,143,.20), transparent 34%),
+        linear-gradient(180deg, rgba(4,15,29,.08), rgba(4,15,29,.18));
+    }
+    #s-invite::before{background:linear-gradient(180deg,rgba(5,18,35,.08),rgba(5,18,35,.03) 46%,rgba(5,18,35,.16));}
     .kicker-main{
+      font-family:'Zen Old Mincho','Shippori Mincho',serif;
       font-size:14px;
-      line-height:1.9;
-      letter-spacing:.055em;
+      line-height:1.8;
+      letter-spacing:.065em;
       max-width:980px;
     }
     .kicker-sub{
-      font-family:'Zen Kaku Gothic New','Noto Sans JP',sans-serif;
+      font-family:'Cormorant Garamond','Shippori Mincho',serif;
+      letter-spacing:.30em;
+      font-size:13px;
     }
+    .brand-logo{width:min(44vw,380px);max-height:92px;}
+    .num-hero{letter-spacing:.03em;}
+    .anniv-word{letter-spacing:.14em;}
+    .invitation-word{letter-spacing:.60em;}
+    .lede{max-width:58ch;line-height:1.75;}
   }
 
   /* =========================
@@ -283,9 +350,6 @@
       display:flex;
       justify-content:center;
       align-items:stretch;
-      background:
-        radial-gradient(circle at 50% 18%, rgba(51,88,143,.16), transparent 34%),
-        var(--navy-900);
     }
 
     #app{
@@ -314,6 +378,12 @@
       justify-content:center;
       text-align:center;
     }
+
+    #s-invite .kicker-main{margin-bottom:2px;}
+    #s-invite .kicker-sub{margin-bottom:18px;}
+    #s-invite .brand-logo{margin-bottom:16px;}
+    #s-invite .details{border-color:rgba(239,228,200,.24);}
+
 
     #s-invite .kicker{
       width:min(100%, 980px);
@@ -486,10 +556,6 @@
   }
 
   /* Medium screens: keep desktop composition but reduce side padding. */
-  @media (min-width:769px){
-    body{background-size:cover, 420px auto;}
-  }
-
   @media (min-width:769px) and (max-width:1000px){
     .screen{padding-left:42px;padding-right:42px;}
     #s-admin{padding-left:20px;padding-right:20px;}
