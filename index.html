@@ -1281,7 +1281,7 @@ async function logAudit(action,detail){
 }
 
 function renderDash(){
-  const total=ATTENDEES.length;
+  const total=ATTENDEES.filter(a=>a.active!==false).length;
   const attending=RSVPS.filter(r=>r.isCurrent&&r.attendance==='YES').length;
   const notAttending=RSVPS.filter(r=>r.isCurrent&&r.attendance==='NO').length;
   const noResponse=Math.max(0,total-attending-notAttending);
@@ -1438,9 +1438,10 @@ async function removeSurvey(id){
 
 let pendingDelete = new Set();
 function renderAttendeesAdmin(){
-  pendingDelete = new Set([...pendingDelete].filter(id=>ATTENDEES.some(a=>String(a.id)===id)));
+  pendingDelete = new Set([...pendingDelete].filter(id=>ATTENDEES.some(a=>String(a.id)===id&&attLive(a))));
+  const removed = ATTENDEES.filter(a=>!attLive(a));
   const n = pendingDelete.size;
-  const rows=ATTENDEES.map(a=>{
+  const rows=ATTENDEES.filter(attLive).map(a=>{
     const id=String(a.id), m=pendingDelete.has(id);
     return `
     <div class="list-item${m?' marked':''}">
@@ -1467,7 +1468,8 @@ function renderAttendeesAdmin(){
       <button class="small-btn" onclick="markAllAttendees()">Mark all</button>
       <span class="soon" id="attNote">${n?n+' marked for deletion — not deleted until you press Save changes.':'Press Delete on a name, then Save changes.'}</span>
     </div></div>
-    <div class="card">${rows||'<span class="soon">No attendees yet.</span>'}</div>`;
+    <div class="card">${rows||'<span class="soon">No attendees yet.</span>'}</div>
+    ${removed.length?`<div class="card"><label class="f">Removed (${removed.length}) — hidden from guests</label>${removed.map(a=>`<div class="list-item"><span class="att-name soon">${escapeHtml(a.name)}</span><span class="row-flex"><button class="small-btn" onclick="reactivateAttendee('${escapeHtml(a.id)}')">Restore</button></span></div>`).join('')}</div>`:''}`;
 }
 function toggleDelete(id){
   id=String(id);
@@ -1475,24 +1477,42 @@ function toggleDelete(id){
   renderAttendeesAdmin();
 }
 function discardAttendeeChanges(){ pendingDelete=new Set(); renderAttendeesAdmin(); }
-function markAllAttendees(){ pendingDelete=new Set(ATTENDEES.map(a=>String(a.id))); renderAttendeesAdmin(); }
+function markAllAttendees(){ pendingDelete=new Set(ATTENDEES.filter(attLive).map(a=>String(a.id))); renderAttendeesAdmin(); }
+function attLive(a){ return !!a && a.active!==false; }
+async function waitForRemoval(ids,tries){
+  let left=ids;
+  const note=()=>document.getElementById('attNote');
+  for(let t=0;t<tries&&left.length;t++){
+    await new Promise(r=>setTimeout(r,1500));
+    try{ applyAdminData(await apiGet('adminBootstrap',{token:adminToken})); }catch(e){ continue; }
+    left=ids.filter(id=>ATTENDEES.some(a=>String(a.id)===id&&attLive(a)));
+    if(note()) note().textContent='Confirming with Google Sheets… '+(ids.length-left.length)+' / '+ids.length;
+  }
+  return left;
+}
 async function saveAttendeeChanges(){
   if(!isAdmin||!adminToken||!pendingDelete.size) return;
   const ids=[...pendingDelete];
   const withRsvp=ids.filter(id=>{const a=ATTENDEES.find(x=>String(x.id)===id);return a&&a.rsvpStatus==='SUBMITTED';}).length;
-  if(!confirm('Delete '+ids.length+' attendee(s) permanently?'+(withRsvp?'\n\n'+withRsvp+' of them already submitted an RSVP. Their RSVP history stays in RSVPS, but the attendee record is removed.':'')+'\n\nThis cannot be undone.')) return;
+  if(!confirm('Delete '+ids.length+' attendee(s)?'+(withRsvp?'\n\n'+withRsvp+' of them already submitted an RSVP. Their RSVP history stays in RSVPS.':'')+'\n\nThey will no longer appear for guests.')) return;
   document.querySelectorAll('#tab-attendees .small-btn').forEach(b=>b.disabled=true);
-  const note=document.getElementById('attNote');
+  const note=()=>document.getElementById('attNote');
   let done=0;
   try{
     for(const id of ids){
       await postForm('removeAttendee',{id},adminToken);
-      done++; if(note) note.textContent='Saving '+done+' / '+ids.length+'…';
+      done++; if(note()) note().textContent='Sending '+done+' / '+ids.length+'…';
     }
   }catch(e){ alert('Stopped after '+done+' of '+ids.length+': '+e.message); }
-  await loadAdmin();
-  const left=ids.filter(id=>ATTENDEES.some(a=>String(a.id)===id));
-  if(left.length) alert(left.length+' could not be deleted and are still marked. Press Save changes to try again.');
+  let left=await waitForRemoval(ids,10);
+  if(left.length){
+    if(note()) note().textContent='Trying another way…';
+    try{ for(const id of left) await postForm('setAttendeeActive',{id,active:false},adminToken); }catch(e){}
+    left=await waitForRemoval(left,6);
+  }
+  pendingDelete=new Set(left);
+  renderAttendeesAdmin();
+  if(left.length) alert(left.length+' name(s) were not removed by Google Sheets and are still marked. The Apps Script may need updating — press Save changes to retry.');
 }
 async function bulkAddAttendees(){
   const names=val('bulkNames').split('\n').map(n=>n.trim()).filter(Boolean);
